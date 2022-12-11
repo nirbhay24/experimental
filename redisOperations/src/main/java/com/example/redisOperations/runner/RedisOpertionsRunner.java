@@ -22,14 +22,22 @@ public class RedisOpertionsRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //saving one employee
-        crudOperations();
+//        crudOperations();
 
         System.out.println("Going to do hyperloglog operations");
-        String PAGE2 = "PAGE2";
-        hitCount.putToLog(PAGE2, "231.237.83.182");
-        hitCount.putToLog(PAGE2, "62.247.0.61");
-        hitCount.putToLog(PAGE2, "215.22.104.179");
-        hitCount.putToLog(PAGE2, "185.72.101.237", "19.162.98.102", "57.221.211.127", "123.181.3.164", "246.125.179.169");
+        String PAGE2 = "PAGE7";
+
+        for(int i=1; i<= 1_00_000; i++)
+        {
+
+            hitCount.putToLog(PAGE2, "185.72.101.237"+i, "19.162.98.102"+i, "57.221.211.127"+1, "123.181.3.164"+i, "246.125.179.169"+i);
+            hitCount.putToLog(PAGE2, "185.72.101.238"+i, "19.162.98.103"+i, "57.221.211.128"+1, "123.181.3.165"+i, "246.125.179.170"+i);
+
+            if(i%1000 == 0){
+                System.out.println("Saved for :"+(i*10)+"   Current count :"+hitCount.getCount(PAGE2));
+            }
+        }
+        // total saved 10_00_000  But what I got count 8_00_613 that is 20% less than actual value
         System.out.println(hitCount.getCount(PAGE2));
 
 
